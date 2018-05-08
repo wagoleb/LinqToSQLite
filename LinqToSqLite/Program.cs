@@ -13,7 +13,7 @@ namespace LinqToSqLite
     [Table(Name = "company")]
     class Company
     {
-        [Column(Name = "id")]
+        [Column(Name = "id", IsPrimaryKey = true, CanBeNull = false, IsDbGenerated = true)]
         public int Id { get; set; }
 
         [Column(Name = "seats")]
@@ -23,15 +23,25 @@ namespace LinqToSqLite
     {
         static void Main(string[] args)
         {
-            var connection = new SQLiteConnection(@"Data Source=liteTestDb.db");
-            var context = new DataContext(connection);
-            // context.CreateDatabase();
-            // context.Connection.Close();
-            var companies = context.GetTable<Company>();
+            SQLiteConnection connection = new SQLiteConnection(@"Data Source=liteTestDb.db");
+            DataContext context = new DataContext(connection);
+            Table<Company> companies = context.GetTable<Company>();
+
+            Company nowy = new Company() { Id = 5, Seats = 234 };
+
+            companies.InsertOnSubmit(nowy);
+
+            try
+            {
+                context.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             foreach (var item in companies)
             {
-                Console.WriteLine(item);
                 Console.WriteLine("{0}\t\t{1}", item.Id, item.Seats);
             }
         }
