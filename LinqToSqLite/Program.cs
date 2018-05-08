@@ -15,7 +15,8 @@ namespace LinqToSqLite
     {
         static void Main(string[] args)
         {
-
+            PersonDataBase baza = new PersonDataBase(@"C:\Users\bonow\source\repos\LinqToSQLite\LinqToSqLite\bin\Debug\mydvds.mdf");
+            baza.Initialize();
         }
     }
 }

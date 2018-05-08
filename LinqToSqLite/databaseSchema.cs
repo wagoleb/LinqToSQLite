@@ -21,7 +21,7 @@ namespace LinqToSqLite
         {
             PersonDataBase newDataBase = new PersonDataBase(this._connection);
             if (!newDataBase.DatabaseExists())
-                System.Data.SQLite.Linq
+                newDataBase.CreateDatabase();
         }
     }
 
